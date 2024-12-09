@@ -1,4 +1,3 @@
-import { headers } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
@@ -7,19 +6,20 @@ import ProfileDrop from '@utils/ProfileDrop';
 import Block from '@utils/Block';
 import LangIcon from '@utils/LangIcon';
 
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+// No prerendering, force dynamic rendering
+export const dynamic = 'error';
 export const revalidate = 0;
 
 export default async function Home() {
-  if (headers().get('x-prerender-revalidate')) {
-    return null;
-  }
-
-  const cookieStore = cookies();
-  const supabase = createServerComponentClient({ cookies: () => cookieStore });
-
   try {
+    // Skip auth check during build
+    if (process.env.VERCEL_ENV === undefined) {
+      return null;
+    }
+
+    const cookieStore = cookies();
+    const supabase = createServerComponentClient({ cookies: () => cookieStore });
+
     const { data: { session } } = await supabase.auth.getSession();
 
     if (!session) {
