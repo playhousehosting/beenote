@@ -3,9 +3,8 @@ import ThemeProvider from '@utils/Theme'
 import Toast from '@utils/Toaster'
 import { AnalyticsWrapper } from '@utils/analytics';
 import { AuthProvider } from './providers';
-import { Metadata } from 'next'
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'BeeNote',
   description: 'Your online language learning notes',
 }
