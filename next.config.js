@@ -20,7 +20,10 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   staticPageGenerationTimeout: 300,
-  output: 'standalone'
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
+  env: {
+    VERCEL_ENV: process.env.VERCEL_ENV || 'development'
+  }
 }
 
 module.exports = nextConfig
